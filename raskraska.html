@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Раскраски для малышей</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+        
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .canvas-container {
+            position: relative;
+            margin: 0 auto;
+            width: 600px;
+            height: 500px;
+        }
+        
+        #drawingCanvas, #backgroundCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            cursor: crosshair;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #333;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-btn.active {
+            border: 3px solid #000;
+            transform: scale(1.1);
+        }
+        
+        .eraser {
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .action-btn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .save-btn {
+            background-color: #2196F3;
+        }
+        
+        .save-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .clear-btn {
+            background-color: #f44336;
+        }
+        
+        .clear-btn:hover {
+            background-color: #da190b;
+        }
+        
+        .images-select {
+            margin: 15px 0;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        
+        .brush-size {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .brush-size label {
+            font-weight: bold;
+        }
+        
+        .brush-size input {
+            width: 100px;
+        }
+        /* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff;
+    color: #333;
+  }
+  
+  header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  nav ul li a:hover {
+    color: #ffcc00;
+  }
+  
+  nav .hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* Основной контент */
+  main {
+    padding: 20px;
+  }
+  
+  section {
+    margin-bottom: 40px;
+  }
+  
+  .hero {
+    text-align: center;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .puzzle-pieces, .coloring-images, .sorting-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 20px;
+  }
+  
+  .sorting-item {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    border-radius: 10px;
+  }
+  
+  /* Футер */
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+  
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .social {
+    padding: 10px;
+    background-color: #444;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .social:hover {
+    background-color: #555;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    nav ul {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    nav ul.active {
+      display: flex;
+    }
+  
+    nav .hamburger {
+      display: block;
+    }
+  
+    .buttons {
+      flex-direction: column;
+    }
+  }
+  
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='index.html'">← Назад на главную</button>
+    <div class="game-container">
+        <h1>Весёлые раскраски для малышей</h1>
+        
+        <select class="images-select" id="imageSelect">
+            <option value="">Выберите раскраску</option>
+            <option value="animals1">Животные 1</option>
+            <option value="animals2">Животные 2</option>
+            <option value="cars">Машинки</option>
+            <option value="princess">Принцесса</option>
+            <option value="dinosaurs">Динозавры</option>
+            <option value="fruits">Фрукты</option>
+            <option value="space">Космос</option>
+            <option value="underwater">Подводный мир</option>
+            <option value="fairytale">Сказочные герои</option>
+            <option value="nature">Природа</option>
+        </select>
+        
+        <div class="canvas-container">
+            <canvas id="backgroundCanvas" width="600" height="500"></canvas>
+            <canvas id="drawingCanvas" width="600" height="500"></canvas>
+        </div>
+        
+        <div class="brush-size">
+            <label for="brushSize">Размер кисти:</label>
+            <input type="range" id="brushSize" min="1" max="30" value="10">
+            <span id="brushSizeValue">10</span>
+        </div>
+        
+        <div class="controls">
+            <div class="color-btn" data-color="#FF0000" style="background-color: #FF0000;"></div>
+            <div class="color-btn" data-color="#00FF00" style="background-color: #00FF00;"></div>
+            <div class="color-btn" data-color="#0000FF" style="background-color: #0000FF;"></div>
+            <div class="color-btn" data-color="#FFFF00" style="background-color: #FFFF00;"></div>
+            <div class="color-btn" data-color="#FF00FF" style="background-color: #FF00FF;"></div>
+            <div class="color-btn" data-color="#00FFFF" style="background-color: #00FFFF;"></div>
+            <div class="color-btn" data-color="#FFA500" style="background-color: #FFA500;"></div>
+            <div class="color-btn" data-color="#800080" style="background-color: #800080;"></div>
+            <div class="color-btn eraser" data-color="eraser">Л</div>
+        </div>
+        
+        <div>
+            <button class="action-btn clear-btn" id="clearBtn">Очистить</button>
+            <button class="action-btn save-btn" id="saveBtn">Сохранить</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backgroundCanvas = document.getElementById('backgroundCanvas');
+            const drawingCanvas = document.getElementById('drawingCanvas');
+            const bgCtx = backgroundCanvas.getContext('2d');
+            const ctx = drawingCanvas.getContext('2d');
+            const colorBtns = document.querySelectorAll('.color-btn');
+            const clearBtn = document.getElementById('clearBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const imageSelect = document.getElementById('imageSelect');
+            const brushSizeInput = document.getElementById('brushSize');
+            const brushSizeValue = document.getElementById('brushSizeValue');
+            
+            let isDrawing = false;
+            let currentColor = '#FF0000';
+            let isErasing = false;
+            let currentBrushSize = 10;
+            
+            // Предзагружаем изображения
+            const images = {
+                animals1: 'https://i.imgur.com/4NjW2RA.png',
+                animals2: 'https://i.imgur.com/SGQxKw4.png',
+                cars: 'https://i.imgur.com/OBS6ihm.jpeg',
+                princess: 'https://i.imgur.com/z1xFidM.jpeg',
+                dinosaurs: 'https://i.imgur.com/JJvBr7i.jpeg',
+                fruits: 'https://i.imgur.com/ASxvwFl.jpeg',
+                space: 'https://i.imgur.com/HvgVYgO.jpeg',
+                underwater: 'https://i.imgur.com/LH8Qymz.jpeg',
+                fairytale: 'https://i.imgur.com/1wAgmVV.jpeg',
+                nature: 'https://i.imgur.com/2CS33IQ.jpeg'
+            };
+            
+            // Запасные изображения на случай если основные не загрузятся
+            const backupImages = {
+                animals1: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIyNTAiIHI9IjEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIyNjAiIGN5PSIyMTAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+PGNpcmNsZSBjeD0iMzQwIiBjeT0iMjEwIiByPSIxMCIgZmlsbD0iIzAwMCIvPjxwYXRoIGQ9Ik0yNzAgMzAwIHEzMCAzMCA2MCAwIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==',
+                animals2: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMzAwIDE1MCBsLTEwMCAtNTAgbDEwMCAtNTAgbDEwMCA1MCB6IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yMDAgMTUwIGwxMDAgMTAwIGwxMDAgLTEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIyNDAiIGN5PSIxMDAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+PGNpcmNsZSBjeD0iMzYwIiBjeT0iMTAwIiByPSIxMCIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==',
+                cars: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNTAiIHk9IjIwMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSIxMDAiIHJ4PSIyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIzMDAiIHI9IjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjQwMCIgY3k9IjMwMCIgcj0iNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMjAwIiB5PSIyMDAiIHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
+                princess: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIxNTAiIHI9IjgwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zMDAgMjMwIGwwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMzAwIDI1MCBsLTgwIDgwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zMDAgMjUwIGw4MCA4MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48cGF0aCBkPSJNMjMwIDE1MCBsMTQwIDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iMjcwIiBjeT0iMTMwIiByPSIxMCIgZmlsbD0iIzAwMCIvPjxjaXJjbGUgY3g9IjMzMCIgY3k9IjEzMCIgcj0iMTAiIGZpbGw9IiMwMDAiLz48L3N2Zz4=',
+                dinosaurs: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMzAwIDMwMCBsLTUwIC0xMDAgbC0xMDAgLTUwIGwtNTAgMTAwIGwxMDAgNTAgbDUwIDEwMCBsMTAwIC01MCBsNTAgLTEwMCBsLTEwMCAtNTAgeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+PGNpcmNsZSBjeD0iNDAwIiBjeT0iMTUwIiByPSIxMCIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==',
+                fruits: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIyMDAiIHI9IjUwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0yMDAgMTUwIGwwIDUwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjQwMCIgY3k9IjIwMCIgcj0iNzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTQwMCAxMzAgbDAgNzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
+                space: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSIyNTAiIHI9IjEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIyMDAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+PGNpcmNsZSBjeD0iNDAwIiBjeT0iMzAwIiByPSIyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIzMDAiIHI9IjE1IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==',
+                underwater: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTUwIDMwMCBsMTUwIC0xMDAgbDE1MCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iMzAwIiBjeT0iMjAwIiByPSIzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIzNTAiIGN5PSIyNTAiIHI9IjEwIiBmaWxsPSIjMDAwIi8+PC9zdmc+',
+                fairytale: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMzAwIDEwMCBsMCAzMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTMwMCAxMDAgbDEwMCAtNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTMwMCAxMDAgbC0xMDAgLTUwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjMwMCIgY3k9IjQwMCIgcj0iNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+',
+                nature: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNjAwIDUwMCI+PHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTUwIDQwMCBsMzAwIC0zMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PHBhdGggZD0iTTE1MCA0MDAgbDMwMCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0xNTAgNDAwIGwwIC0zMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+'
+            };
+            
+            // Установка размера кисти
+            brushSizeInput.addEventListener('input', function() {
+                currentBrushSize = this.value;
+                brushSizeValue.textContent = currentBrushSize;
+            });
+            
+            // Выбор цвета
+            colorBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    colorBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (this.dataset.color === 'eraser') {
+                        isErasing = true;
+                    } else {
+                        isErasing = false;
+                        currentColor = this.dataset.color;
+                    }
+                });
+            });
+            
+            // Выбор изображения
+            imageSelect.addEventListener('change', function() {
+                if (this.value) {
+                    loadImage(this.value);
+                }
+            });
+            
+            // Загрузка изображения
+            function loadImage(imageKey) {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = function() {
+                    bgCtx.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+                    bgCtx.drawImage(img, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
+                    ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+                };
+                
+                img.onerror = function() {
+                    // Если основное изображение не загрузилось, используем резервное SVG
+                    img.src = backupImages[imageKey];
+                };
+                
+                img.src = images[imageKey];
+            }
+            
+            // Рисование
+            drawingCanvas.addEventListener('mousedown', startDrawing);
+            drawingCanvas.addEventListener('mousemove', draw);
+            drawingCanvas.addEventListener('mouseup', stopDrawing);
+            drawingCanvas.addEventListener('mouseout', stopDrawing);
+            
+            // Для сенсорных устройств
+            drawingCanvas.addEventListener('touchstart', handleTouch);
+            drawingCanvas.addEventListener('touchmove', handleTouch);
+            drawingCanvas.addEventListener('touchend', stopDrawing);
+            
+            function handleTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent(
+                    e.type === 'touchstart' ? 'mousedown' : 'mousemove',
+                    {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    }
+                );
+                
+                const rect = drawingCanvas.getBoundingClientRect();
+                mouseEvent.offsetX = touch.clientX - rect.left;
+                mouseEvent.offsetY = touch.clientY - rect.top;
+                
+                if (e.type === 'touchstart') {
+                    startDrawing(mouseEvent);
+                } else {
+                    draw(mouseEvent);
+                }
+            }
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                draw(e);
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const rect = drawingCanvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                
+                if (isErasing) {
+                    // Используем композицию для стирания только верхнего слоя
+                    ctx.globalCompositeOperation = 'destination-out';
+                    ctx.strokeStyle = 'rgba(0,0,0,1)';
+                } else {
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.strokeStyle = currentColor;
+                }
+                
+                ctx.lineWidth = currentBrushSize;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.closePath();
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+                ctx.beginPath();
+            }
+            
+            // Очистка холста
+            clearBtn.addEventListener('click', function() {
+                ctx.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+            });
+            
+            // Сохранение изображения
+            saveBtn.addEventListener('click', function() {
+                // Создаем временный canvas для объединения слоев
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = drawingCanvas.width;
+                tempCanvas.height = drawingCanvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                // Рисуем фоновое изображение
+                tempCtx.drawImage(backgroundCanvas, 0, 0);
+                
+                // Рисуем поверх рисунок пользователя
+                tempCtx.drawImage(drawingCanvas, 0, 0);
+                
+                // Создаем ссылку для скачивания
+                const link = document.createElement('a');
+                link.download = 'раскраска.png';
+                link.href = tempCanvas.toDataURL('image/png');
+                link.click();
+            });
+            
+            // Активируем первый цвет по умолчанию
+            colorBtns[0].click();
+        });
+    </script>
+</body>
+</html>
